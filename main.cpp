@@ -355,6 +355,20 @@ void convertTOupper(vector<string>& text)
         }
     }
 }
+void add(string& text,ofstream& file)
+{
+    char filename[100];
+    cout << "please enter the name of file:";
+    cin.getline(filename, 100, '\n');
+    cout<<"please add new text to file";
+    getline(cin,text);
+    file.open(filename,ios::app);
+    if (file.is_open())
+    {
+        file<<text;
+        file.close();
+    }
+}
 
 void count()
 {
