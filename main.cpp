@@ -369,6 +369,12 @@ void add(string& text,ofstream& file)
         file.close();
     }
 }
+//display content of a file
+void dis(vector<string>& text,ifstream& file) {
+    loadFile(text,file);
+    for (string line :text)
+        cout<<line<<endl;
+}
 
 void count()
 {
