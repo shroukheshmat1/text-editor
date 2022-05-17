@@ -179,6 +179,172 @@ int countNO_of_a_repeatedword(vector<string>& text)
         }
         cout<<"the word "<<word<<" was repeated in your file "<<trial.size()<<" times"<<endl;
     }
+    
+    void loadFile2 (vector <char>& text, ifstream& file){  // ifstream ---> input (read) only file
+    char fileName[100], letter;   // The file name must be in C-string style "Array of characters"
+    cout << "Please Enter the Name with its Extension of the Second File: " << endl;
+    cin.getline(fileName, 100, '\n');
+    file.open(fileName);
+    if (file.is_open()){
+        cout << "The Second File Opened Successfully :)" << endl;
+        while (!file.eof()){
+            file.get(letter); // Get letter by letter to make sure it reads the spaces too.
+            text.emplace_back(letter); // text.push_back(string(line))
+        }
+        file.close();
+    }
+    else{
+        cout << "I Will Create the File for You when Saving. :)";
+    }
+}
+
+
+void mergeFiles(vector <char>& second, fstream& file1, ifstream& file2) {
+    char fileName[100];
+    cout << "Please Enter the Name with its Extension of the First File, You Want to Append on it: ";
+    cin.getline(fileName, 100, '\n');
+    file1.open(fileName, ios::app); // Open the File in Append Mode.
+    if (file1.is_open()) {
+        cout << "The First File Opened Successfully :)" << endl;
+        loadFile2(second, file2);  // Load the Second File's Content into a Vector.
+        for (char letter: second) {
+            file1 << letter;  // Append Every Character in the 'second' Vector into the first file.
+        }
+        file1.close();
+    }
+    else{
+        cout << "I Will Create the File for You when Saving. :)";
+    }
+}
+
+void N_characters(vector<string>& text, ifstream& file) {
+    int N_char = 0;
+    loadFile(text, file);
+    for (int i = 0; i < text.size(); i++) {  // Loop over the lines in the vector.
+        N_char += text[i].size(); // Adding the number of characters in each line of the vector.
+    }
+    cout << "The Number of Characters in the File = " << N_char << endl;
+    cout << "\"The White Spaces and Special Characters are Considered as Characters.\"";
+    file.close();
+}
+
+void N_lines(vector<string>& text, ifstream& file){
+    loadFile(text, file);
+    int N_lines;
+    N_lines = text.size();  // The Size of the Vector Represents the Number of Lines in the File.
+    cout << "The Number of the Lines in the File = " << N_lines << endl;
+}
+
+void N_words(vector<string>& text, ifstream& file) {
+    char fileName[100], ch;
+    int n = 1;
+    stringstream temp;
+    cout << "Please Enter the File Name with the Extension, You Want to Edit on: " << endl;
+    cin.getline(fileName, 100, '\n');
+    file.open(fileName);
+    if (file.is_open()) {
+        cout << "The File Opened Successfully :)" << endl;
+        while (!file.eof()) {
+            file.get(ch);
+            if (ch == ' ' || ch == '\n' || ch == ',' || ch == ';' || ch == '!' || ch == '?'){
+                n++;
+            }
+        }
+    }
+    cout << "The Number of Words in the File = " << n << endl;
+}
+
+void firstCaps(vector<string>& text, ifstream& file){
+    loadFile(text, file);
+    int index, index2;
+    if (file.is_open()) {
+        cout << "The File Opened Successfully :)" << endl;
+        for (string line: text) {
+            for (char letter: line) {
+                line.at(0) = toupper(line.at(0));
+                cout << letter;
+                if (letter == ' ') {
+                    index = line.find(' ');
+                    line.at(index + 1) = toupper(line.at(index + 1));
+                    cout << line.at(index + 1) << endl;
+                }
+            }
+        }
+        file.close();
+    }
+}
+
+void display_content(vector<string>& text, ifstream& file){
+    loadFile(text, file);
+    for (string line: text){
+        cout << line << endl;
+    }
+}
+
+void search_for_word(vector<string>& text, ifstream& file){
+    string searchWord;
+    bool found = false;
+    loadFile(text, file);
+    cout << "Please Enter the Word You Want to Search for: " << endl;
+    getline(cin, searchWord);
+    for (int i = 0; i < searchWord.length(); i++){
+        searchWord.at(i) = tolower(searchWord.at(i));
+    }
+
+    for (int i = 0; i < text.size(); i++){
+        for (int j = 0; j < text[i].size(); j++){
+            text[i][j] = tolower(text[i][j]);
+        }
+    }
+
+    for (string line: text){
+        if (line.find(searchWord) != string :: npos) { // if the return of the find function not equal to the end of the string{
+                cout << "The Word Has Been Found in this File. :)" << endl;
+                found = true;
+                break;
+        }
+    }
+    if (!found) {
+        cout << "Unfortunately, The Word Has NOT Been Found in this File. :(" << endl;
+    }
+    file.close();
+}
+
+void count_repeated_word(vector<string>& text, ifstream& file){
+    string searchWord;
+    bool found = false;
+    int count = 0;
+    loadFile(text, file);
+    cout << "Please Enter the Word You Want to Search for: " << endl;
+    getline(cin, searchWord);
+    for (string line: text){
+        if (line.find(searchWord) != string :: npos) { // if the return of the find function not equal to the end of the string
+            count += 1;
+            found = true;
+        }
+    }
+    cout << "The Word Has Been Found in this File." << count << " Times." << endl;
+    if (!found) {
+        cout << "Unfortunately, The Word Has NOT Been Found in this File. :(" << endl;
+    }
+    file.close();
+}
+
+int displayMenu(int choice){
+    cout << "WELCOME TO SRR TEXT EDITOR :)";
+    cout << "\nPlease Choose the Number of the Edit You Want to Do:\n ";
+    cout << "1.Add New Text to the End of the File.\n2.Display the Content of the File.\n"
+            "3.Empty the File.\n4.Encrypt the File Content.\n5.Decrypt the File Content.\n"
+            "6.Merge Another File.\n7.Count the Number of Words in the File.\n"
+            "8.Count the Number of the Characters in the File\n9.Count the Number of the "
+            "Lines in the File\n10.Search for a Word in the File\n11.Count the Number of Times"
+            "a Word Exists in the File.\n12.Turn the File Content to Upper Case.\n"
+            "13.Turn the File Content to Lower Case.\n14.Turn the File Content to 1st Cast.\n"
+            "15.Save\n16.Exit." << endl;
+
+    cin >> choice;
+    return choice;
+}
 
 
 
