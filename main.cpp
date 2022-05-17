@@ -403,6 +403,47 @@ void first_caps(vector<string>& text)
         }
     }
 }
+void EMPTY(vector<string>& text,ofstream& file)
+{
+  // ofstream file(file);
+    ofstream myfile;
+    char filename[100];
+    cin.getline(filename,100,'\n');
+    file.open(filename,ios::trunc);
+    file.close();
+}
+void encrypt(vector<string>& text,fstream& myfile) {
+    char filename[100],ch;
+    //ifstream file;
+    //loadFile(text, myfile);
+    cin.getline(filename, 100, '\n');
+    myfile.open(filename);
+    for (int i = 0; i < text.size(); i++) {
+        for (int j = 0; j < text[i].size(); j++) {
+            ch=++text[i][j];
+            cout << ch;//text[i][j];
+            myfile.open(filename,ios::out);
+            myfile << ch << endl;
+        }
+    }
+    myfile.close();
+
+}
+void decrypt(vector<string>& text,ofstream& myfile){
+    char filename[100];
+    cin.getline(filename,100,'\n');
+    myfile.open(filename);
+    for (int i=0;i<text.size();i++){
+        for (int j=0;j<text[i].size();j++){
+            text[i][j]--;
+            cout<<text[i][j];
+        }
+
+    }
+    myfile.close();
+
+}
+
 
 int main()
 {
