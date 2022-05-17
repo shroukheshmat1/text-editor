@@ -613,45 +613,63 @@ void decrypt(vector<string>& text,ofstream& myfile){
 
 int main()
 {
-    fstream sourcefile;
+    ifstream sourcefile;
+    fstream file;
+    ofstream datafile;
     vector<string> text;
-    loadfile(text,sourcefile);
     int choice;
-   // count();
+    string txt;
     while (true)
     {
         choice=displayMenu();
         if (choice == 1)
         {
-            countNO_of_a_repeatedword(text);
+
+            count_no_of_repeated_words();
             break;
         }
         if (choice == 2)
         {
             convertTOupper(text);
-            for (string line : text)
-                cout<<line<<endl;
             break;
-
         }
         else if (choice == 3)
         {
+            //loadfile(text,sourcefile);
             convertTOlower(text);
-            for (string line : text)
-                cout<<line<<endl;
             break;
         }
         else if (choice == 4)
         {
             first_caps(text);
-            for (string line : text)
-                cout<<line<<endl;
+            break;
+        }
+        else if (choice == 5)
+        {
+            dis(text,sourcefile);
+            break;
+        }
+        else if (choice == 6)
+        {
+            EMPTY(text,datafile);
+            break;
+        }
+        else if (choice == 7)
+        {
+            add(txt,datafile);
+            break;
+        }
+        else if (choice == 8)
+        {
+            encrypt( text,file);
+            break;
+        }
+        else if (choice == 9)
+        {
+            decrypt( text,datafile);
             break;
         }
     }
 
-
-  /*  for (string line : text)
-        cout<<line<<endl; */
     return 0;
 }
